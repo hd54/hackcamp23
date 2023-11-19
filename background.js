@@ -38,7 +38,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Add click event for context menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.menuItemId == "getSelectedText") {
+    if (info.menuItemId === "getSelectedText") {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: getSelectedText
