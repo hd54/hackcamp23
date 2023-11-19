@@ -18,9 +18,3 @@ function sendTextForExplanation(text) {
       }
     });
 }
-
-const extension = {
-  getSelectedText: getSelectedText
-}
-
-window.extension = extension;
