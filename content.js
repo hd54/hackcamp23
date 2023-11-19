@@ -1,7 +1,5 @@
-import {chrome} from "./browser";
-
 function getSelectedText() {
-    chrome.scripting.executeScript({
+    chrome.tabs.executeScript({
       code: "window.getSelection().toString();"
     }, function(selection) {
       // Do something with the selected text

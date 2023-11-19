@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Highli5",
     "version": "1.0",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["tabs","activeTab", "scripting", "contextMenus"],
     "background": {
       "scripts": ["background.js"],
       "persistent": false
