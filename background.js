@@ -1,5 +1,4 @@
 // Replace with your actual OpenAI API key
-import {getSelectedText} from "content"
 
 const OPENAI_API_KEY = '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';
 
@@ -42,7 +41,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: getSelectedText
+        func: window.extension.getSelectedText()
       });
     }
 });

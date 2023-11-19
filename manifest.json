@@ -4,7 +4,7 @@
     "version": "1.0",
     "permissions": ["tabs","activeTab", "scripting", "contextMenus"],
     "background": {
-      "scripts": ["background.js"],
+      "scripts": ["background.js", "content.js"],
       "persistent": false
     },
     "browser_action": {
