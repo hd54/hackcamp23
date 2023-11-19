@@ -36,9 +36,26 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-function dummy() {
-    alert("a");
-};
+function getSelectedText() {
+    // Get the selected text in the current window
+    let selectedText = window.getSelection().toString();
+    if (selectedText.length > 0) {
+      sendTextForExplanation(selectedText);
+    }
+    return selectedText;
+}
+
+function sendTextForExplanation(text) {
+    chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
+        alert("abc");
+      if (response.explanation) {
+          return response.explanation;
+      } else if (response.error) {
+          console.error('Error:', response.error);
+          return "";
+      }
+    });
+}
 
 // Add click event for context menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -46,8 +63,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         // Convert the function to a string and create a script to execute
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            func: dummy,
-        }).then((response) => alert(response));
+            func: getSelectedText,
+        });
     }
 });
 
