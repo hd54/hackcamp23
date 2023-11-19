@@ -1,4 +1,4 @@
-// In content.js
+
 function getSelectedText() {
     const selectedText = window.getSelection().toString();
     console.log(selectedText);
@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 const extension = {
-    getSelectedText: getSelectedText
+  getSelectedText: getSelectedText
 }
 
 window.extension = extension;

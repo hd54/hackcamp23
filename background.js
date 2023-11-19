@@ -1,40 +1,13 @@
-// Replace with your actual OpenAI API key
-
-const OPENAI_API_KEY = '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';
-
-// Function to call the OpenAI API
-function callOpenAI(text) {
-    return fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-            prompt: text,
-            max_tokens: 150
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.choices && data.choices.length > 0) {
-                return data.choices[0].text.trim();
-            } else {
-                throw new Error('Invalid response from OpenAI API');
-            }
-        })
-        .catch(error => {
-            console.error('Error calling OpenAI API:', error);
-        });
-}
+const OPENAI_API_KEY = '';
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
-        id: "getSelectedText",
-        title: "Get Selected Text",
-        contexts: ["selection"]
+      id: "getSelectedText",
+      title: "Get Selected Text",
+      contexts: ["selection"]
     });
 });
+}
 
 function sendTextForExplanation(text) {
     console.log("Sending...");
@@ -47,7 +20,7 @@ function sendTextForExplanation(text) {
     });
 }
 
-// In background.js
+
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
         chrome.tabs.sendMessage(tab.id, { action: "triggerGetSelectedText" });
