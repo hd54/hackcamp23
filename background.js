@@ -29,6 +29,24 @@ function callOpenAI(text) {
   });
 }
 
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+      id: "getSelectedText",
+      title: "Get Selected Text",
+      contexts: ["selection"]
+    });
+});
+
+// Add click event for context menu
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId == "getSelectedText") {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: getSelectedText
+      });
+    }
+});
+
 // Listen for messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'explainText' && request.text) {
