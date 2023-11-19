@@ -1,11 +1,12 @@
 function getSelectedText() {
-    // Get the selected text in the current window 
+    // Get the selected text in the current window
+    alert("a");
     const selectedText = window.getSelection().toString();
     if (selectedText.length > 0) {
       sendTextForExplanation(selectedText);
     }
 }
-  
+
 function sendTextForExplanation(text) {
     chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
       if (response.explanation) {
@@ -16,9 +17,3 @@ function sendTextForExplanation(text) {
       }
     });
 }
-
-const extension = {
-  getSelectedText: getSelectedText
-}
-
-window.extension = extension;

@@ -41,8 +41,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: window.extension.getSelectedText()
-      });
+        func: window.extension.getSelectedText,
+      }).then(() => console.log("injected a function"));
     }
 });
 
