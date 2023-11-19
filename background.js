@@ -1,4 +1,4 @@
-const COHERE_API_KEY = 'oUUAFroaZkVxxXzZTUKE6Mq5zQWg9lDBQnvva7sd'; // Replace with your actual Cohere API key
+const COHERE_API_KEY = ''; // Replace with your actual Cohere API key
 
 function callCohere(text) {
     const cohereUrl = 'https://api.cohere.ai/generate';
@@ -33,6 +33,7 @@ function callCohere(text) {
             }
         })
         .catch(error => {
+            showDropdownWithResponse(`Error calling Cohere API: ${error}`);
             console.error('Error calling Cohere API:', error);
         });
 }
