@@ -1,28 +1,36 @@
 const OPENAI_API_KEY = '';
 
-async function callOpenAI(text) {
-  return await fetch('https://api.openai.com/v1/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      prompt: text,
-      max_tokens: 150
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.choices && data.choices.length > 0) {
-      return data.choices[0].text.trim();
-    } else {
-      throw new Error('Invalid response from OpenAI API');
-    }
-  })
-  .catch(error => {
-    console.error('Error calling OpenAI API:', error);
-  });
+async function callOpenAI(promptText) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        const openAIUrl = 'https://api.openai.com/v1/engines/davinci/completions';
+
+        xhr.open("POST", openAIUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Authorization', 'Bearer YOUR_OPENAI_API_KEY'); // Replace with your actual OpenAI API key
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve(response.choices[0].text.trim());
+                    } catch (e) {
+                        reject('Error parsing response: ' + e.message);
+                    }
+                } else {
+                    reject('API request failed with status: ' + xhr.status);
+                }
+            }
+        };
+
+        const data = {
+            prompt: promptText,
+            max_tokens: 100
+        };
+
+        xhr.send(JSON.stringify(data));
+    });
 }
 
 
