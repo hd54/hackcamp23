@@ -1,7 +1,7 @@
 const OPENAI_API_KEY = '';
 
 async function callOpenAI(text) {
-  return await fetch('https://api.openai.com/v1/chat/completions', {
+  return await fetch('https://api.openai.com/v1/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
