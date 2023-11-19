@@ -1,12 +1,12 @@
 function getSelectedText() {
-    let text = '';
-    if (window.getSelection) {
-      text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type !== "Control") {
-      text = document.selection.createRange().text;
+    // Get the selected text in the current window
+    const text = window.getSelection().toString();
+
+    // Send the selected text to the background script
+    if (text) {
+        chrome.runtime.sendMessage({ action: 'explainText', text: text });
     }
-    return text;
-  }
+}
   
 function sendTextForExplanation(text) {
     chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {

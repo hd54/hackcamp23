@@ -1,5 +1,6 @@
 // Replace with your actual OpenAI API key
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
+
+const OPENAI_API_KEY = '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';
 
 // Function to call the OpenAI API
 function callOpenAI(text) {
@@ -26,6 +27,24 @@ function callOpenAI(text) {
     console.error('Error calling OpenAI API:', error);
   });
 }
+
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+      id: "getSelectedText",
+      title: "Get Selected Text",
+      contexts: ["selection"]
+    });
+});
+
+// Add click event for context menu
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId == "getSelectedText") {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: getSelectedText
+      });
+    }
+});
 
 // Listen for messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
