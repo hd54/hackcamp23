@@ -1,7 +1,6 @@
 const COHERE_API_KEY = ''; // Replace with your actual Cohere API key
 
 function callCohere(text) {
-    // Update the endpoint URL to the Cohere API endpoint for text generation
     const cohereUrl = 'https://api.cohere.ai/generate';
 
     return fetch(cohereUrl, {
@@ -9,13 +8,11 @@ function callCohere(text) {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${COHERE_API_KEY}`,
-            // Cohere API requires a 'Cohere-Version' header for the version of the API you are targeting
             'Cohere-Version': '2021-11-08'
         },
         body: JSON.stringify({
-            prompt: text, // Cohere uses "prompt" as well
-            max_tokens: 150,
-            // Add any other parameters required by Cohere's API
+            prompt: text,
+            max_tokens: 150
         })
     })
         .then(response => {
@@ -25,10 +22,9 @@ function callCohere(text) {
             return response.json();
         })
         .then(data => {
-            // Cohere's response structure might be different; adjust as necessary based on their documentation
             console.log(data);
-            if (data.text) {
-                return data.text.trim();
+            if (data.generations && data.generations.length > 0) {
+                return data.generations[0].text.trim();
             } else {
                 throw new Error('Invalid response from Cohere API');
             }
