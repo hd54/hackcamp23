@@ -1,7 +1,7 @@
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '';
 
-function callOpenAI(text) {
-  return fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+async function callOpenAI(text) {
+  return await fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,14 +35,16 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 function sendTextForExplanation(text) {
-    console.log("Sending...");
-    callOpenAI(text).then(explanation => {
+    let exp = '';
+    exp = callOpenAI(text).then(explanation => {
         // Process and use the explanation as needed
         // For example, you can log it or send it back to the content script
-        console.log(explanation);
+        return explanation;
     }).catch(error => {
         console.error('Error:', error);
+        return '';
     });
+    return Promise.resolve(exp);
 }
 
 
@@ -53,10 +55,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("hello");
     if (request.action === 'explainText' && request.text) {
-        console.log("OVER HERE");
         sendTextForExplanation(request.text)
-            .then(explanation => sendResponse({ explanation }))
+            .then(explanation => {
+                sendResponse({explanation});
+                console.log(explanation);
+            })
             .catch(error => sendResponse({ error: error.message }));
 
         return true;  // to indicate you wish to send a response asynchronously

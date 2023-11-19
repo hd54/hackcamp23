@@ -1,7 +1,6 @@
 
 function getSelectedText() {
     const selectedText = window.getSelection().toString();
-    console.log(selectedText);
     if (selectedText) {
         chrome.runtime.sendMessage({ action: 'explainText', text: selectedText });
     }
