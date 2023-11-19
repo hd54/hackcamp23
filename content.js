@@ -1,11 +1,10 @@
 function getSelectedText() {
-    var text = "";
-    if (window.getSelection) {
-        text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
-        text = document.selection.createRange().text;
+    // Get the selected text in the current window 
+    const selectedText = window.getSelection().toString();
+    ;
+    if (selectedText.length > 0) {
+      sendTextForExplanation(selectedText);
     }
-    return text;
 }
   
 function sendTextForExplanation(text) {
@@ -18,10 +17,3 @@ function sendTextForExplanation(text) {
       }
     });
 }
-
-document.addEventListener('mouseup', function() {
-    const selectedText = getSelectedText();
-    if (selectedText.length > 0) {
-      sendTextForExplanation(selectedText);
-    }
-});
