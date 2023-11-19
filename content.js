@@ -1,10 +1,8 @@
 function getSelectedText() {
-    // Get the selected text in the current window
-    const text = window.getSelection().toString();
-
-    // Send the selected text to the background script
-    if (text) {
-        chrome.runtime.sendMessage({ action: 'explainText', text: text });
+    // Get the selected text in the current window 
+    const selectedText = window.getSelection().toString();
+    if (selectedText.length > 0) {
+      sendTextForExplanation(selectedText);
     }
 }
   
@@ -18,10 +16,3 @@ function sendTextForExplanation(text) {
       }
     });
 }
-
-document.addEventListener('mouseup', function() {
-    const selectedText = getSelectedText();
-    if (selectedText.length > 0) {
-      sendTextForExplanation(selectedText);
-    }
-});
