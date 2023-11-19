@@ -17,6 +17,7 @@ function callCohere(text) {
     })
         .then(response => {
             if (!response.ok) {
+                showDropdownWithResponse(`API requested failed with status: ${response.status} ${response.statusText}`)
                 throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);
             }
             return response.json();
@@ -27,6 +28,7 @@ function callCohere(text) {
                 showDropdownWithResponse(data.generations[0].text.trim());
                 return data.generations[0].text.trim();
             } else {
+                showDropdownWithResponse('Invalid response from Cohere API');
                 throw new Error('Invalid response from Cohere API');
             }
         })
@@ -59,19 +61,22 @@ function sendTextForExplanation(text) {
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
+        chrome.runtime.sendMessage({action: "showLoading"});
         chrome.tabs.sendMessage(tab.id, { action: "triggerGetSelectedText" });
     }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("hello");
     if (request.action === 'explainText' && request.text) {
         sendTextForExplanation(request.text)
             .then(explanation => {
+                chrome.runtime.sendMessage({action: "showResponse", response: explanation});
                 sendResponse({explanation});
-                console.log(explanation);
             })
-            .catch(error => sendResponse({ error: error.message }));
+            .catch(error => {
+                chrome.runtime.sendMessage({action: "showResponse", response: error.message});
+                sendResponse({ error: error.message });
+            });
 
         return true;  // to indicate you wish to send a response asynchronously
     }
