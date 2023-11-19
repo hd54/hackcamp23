@@ -1,4 +1,4 @@
-function getSelectedText() {
+export function getSelectedText() {
     // Get the selected text in the current window 
     const selectedText = window.getSelection().toString();
     if (selectedText.length > 0) {
