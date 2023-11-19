@@ -36,13 +36,17 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
+function dummy() {
+    alert("a");
+};
+
 // Add click event for context menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
         // Convert the function to a string and create a script to execute
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            func: window.extension.getSelectedText,
+            func: dummy,
         }).then((response) => alert(response));
     }
 });
