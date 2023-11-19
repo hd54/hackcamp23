@@ -1,11 +1,12 @@
 function getSelectedText() {
-    chrome.tabs.executeScript({
-      code: "window.getSelection().toString();"
-    }, function(selection) {
-      // Do something with the selected text
-      return selection[0];
-    });
-  }
+    // Get the selected text in the current window
+    const text = window.getSelection().toString();
+
+    // Send the selected text to the background script
+    if (text) {
+        chrome.runtime.sendMessage({ action: 'explainText', text: text });
+    }
+}
   
 function sendTextForExplanation(text) {
     chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
