@@ -36,47 +36,31 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-function getSelectedText() {
-    // Get the selected text in the current window
-    let selectedText = window.getSelection().toString();
-    console.log(selectedText)
-    if (selectedText.length > 0) {
-        sendTextForExplanation(selectedText);
-    }
-    return selectedText;
-}
-
 function sendTextForExplanation(text) {
-    chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
-        alert("abc");
-        if (response.explanation) {
-            return response.explanation;
-        } else if (response.error) {
-            console.error('Error:', response.error);
-            return "";
-        }
+    console.log("Sending...");
+    callOpenAI(text).then(explanation => {
+        // Process and use the explanation as needed
+        // For example, you can log it or send it back to the content script
+        console.log(explanation);
+    }).catch(error => {
+        console.error('Error:', error);
     });
 }
 
-// Add click event for context menu
+// In background.js
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
-        // Convert the function to a string and create a script to execute
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            func: getSelectedText,
-        });
+        chrome.tabs.sendMessage(tab.id, { action: "triggerGetSelectedText" });
     }
 });
 
-// Listen for messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'explainText' && request.text) {
-        callOpenAI(request.text)
+        console.log("OVER HERE");
+        sendTextForExplanation(request.text)
             .then(explanation => sendResponse({ explanation }))
             .catch(error => sendResponse({ error: error.message }));
 
-        // Return true to indicate that you wish to send a response asynchronously
-        return true;
+        return true;  // to indicate you wish to send a response asynchronously
     }
 });

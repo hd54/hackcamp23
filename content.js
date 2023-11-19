@@ -1,13 +1,18 @@
-function sendTextForExplanation(text) {
-    chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
-        if (response.explanation) {
-            return response.explanation;
-        } else if (response.error) {
-            console.error('Error:', response.error);
-            return "";
-        }
-    });
+// In content.js
+function getSelectedText() {
+    const selectedText = window.getSelection().toString();
+    console.log(selectedText);
+    if (selectedText) {
+        chrome.runtime.sendMessage({ action: 'explainText', text: selectedText });
+    }
 }
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "triggerGetSelectedText") {
+        getSelectedText();
+    }
+});
+
 
 const extension = {
     getSelectedText: getSelectedText
