@@ -1,4 +1,4 @@
-const COHERE_API_KEY = 'oUUAFroaZkVxxXzZTUKE6Mq5zQWg9lDBQnvva7sd'; // Replace with your actual Cohere API key
+const COHERE_API_KEY = ''; // Replace with your actual Cohere API key
 
 function callCohere(text) {
     // Update the endpoint URL to the Cohere API endpoint for text generation
