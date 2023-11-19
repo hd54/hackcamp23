@@ -1,4 +1,3 @@
-
 function getSelectedText() {
     const selectedText = window.getSelection().toString();
     if (selectedText) {

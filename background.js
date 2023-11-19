@@ -1,4 +1,4 @@
-const COHERE_API_KEY = ''; // Replace with your actual Cohere API key
+const COHERE_API_KEY = 'oUUAFroaZkVxxXzZTUKE6Mq5zQWg9lDBQnvva7sd'; // Replace with your actual Cohere API key
 
 function callCohere(text) {
     const cohereUrl = 'https://api.cohere.ai/generate';
@@ -24,6 +24,7 @@ function callCohere(text) {
         .then(data => {
             console.log(data);
             if (data.generations && data.generations.length > 0) {
+                showDropdownWithResponse(data.generations[0].text.trim());
                 return data.generations[0].text.trim();
             } else {
                 throw new Error('Invalid response from Cohere API');
@@ -75,3 +76,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true;  // to indicate you wish to send a response asynchronously
     }
 });
+
+function showDropdownWithResponse(responseText) {
+    chrome.storage.local.set({ apiResponse: responseText });
+}
