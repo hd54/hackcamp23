@@ -1,4 +1,4 @@
-export function getSelectedText() {
+function getSelectedText() {
     // Get the selected text in the current window 
     const selectedText = window.getSelection().toString();
     if (selectedText.length > 0) {
@@ -16,3 +16,9 @@ function sendTextForExplanation(text) {
       }
     });
 }
+
+const extension = {
+  getSelectedText: getSelectedText
+}
+
+window.extension = extension;
