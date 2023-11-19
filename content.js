@@ -5,15 +5,16 @@ function getSelectedText() {
     if (selectedText.length > 0) {
       sendTextForExplanation(selectedText);
     }
+    return selectedText;
 }
 
 function sendTextForExplanation(text) {
     chrome.runtime.sendMessage({ action: 'explainText', text: text }, function(response) {
       if (response.explanation) {
-        // Display the explanation
-        alert(response.explanation); // You can replace this with a more sophisticated display logic
+          return response.explanation;
       } else if (response.error) {
-        console.error('Error:', response.error);
+          console.error('Error:', response.error);
+          return "";
       }
     });
 }

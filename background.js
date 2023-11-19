@@ -40,11 +40,10 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "getSelectedText") {
         // Convert the function to a string and create a script to execute
-        const scriptToInject = `(${getSelectedText.toString()})();`;
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            func: new Function(scriptToInject),
-        }).then(() => console.log("Function injected"));
+            func: window.extension.getSelectedText,
+        }).then((response) => alert(response));
     }
 });
 
