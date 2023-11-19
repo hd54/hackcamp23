@@ -1,4 +1,6 @@
 // Replace with your actual OpenAI API key
+import {chrome} from "./browser";
+
 const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
 
 // Function to call the OpenAI API
