@@ -3,7 +3,7 @@ const OPENAI_API_KEY = '';
 async function callOpenAI(promptText) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        const openAIUrl = 'https://api.openai.com/v1/engines/davinci/completions';
+        const openAIUrl = 'https://api.openai.com/v1/chat/completions';
 
         xhr.open("POST", openAIUrl, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
