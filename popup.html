@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup Explanation</title>
+    <!-- You can add your CSS here for styling -->
+</head>
+<body>
+    <div id="explanationContent">
+        <!-- The explanation from the API will be displayed here -->
+    </div>
+
+    <script>
+        // Function to call the GET API
+        function fetchExplanation() {
+            fetch('https://api.example.com/getExplanation') // Replace with your actual API URL
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('explanationContent').innerHTML = data.explanation;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation: ', error);
+                });
+        }
+
+        // Call the function when the page loads
+        window.onload = fetchExplanation;
+    </script>
+</body>
+</html>
