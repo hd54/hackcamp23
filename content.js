@@ -1,11 +1,10 @@
 function getSelectedText() {
-    let text = '';
-    if (window.getSelection) {
-      text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type !== "Control") {
-      text = document.selection.createRange().text;
-    }
-    return text;
+    chrome.tabs.executeScript({
+      code: "window.getSelection().toString();"
+    }, function(selection) {
+      // Do something with the selected text
+      console.log(selection[0]);
+    });
   }
   
 function sendTextForExplanation(text) {
