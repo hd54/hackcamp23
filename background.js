@@ -1,29 +1,43 @@
-const OPENAI_API_KEY = '';
+const COHERE_API_KEY = 'oUUAFroaZkVxxXzZTUKE6Mq5zQWg9lDBQnvva7sd'; // Replace with your actual Cohere API key
 
-function callOpenAI(text) {
-  return fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      prompt: text,
-      max_tokens: 150
+function callCohere(text) {
+    // Update the endpoint URL to the Cohere API endpoint for text generation
+    const cohereUrl = 'https://api.cohere.ai/generate';
+
+    return fetch(cohereUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${COHERE_API_KEY}`,
+            // Cohere API requires a 'Cohere-Version' header for the version of the API you are targeting
+            'Cohere-Version': '2021-11-08'
+        },
+        body: JSON.stringify({
+            prompt: text, // Cohere uses "prompt" as well
+            max_tokens: 150,
+            // Add any other parameters required by Cohere's API
+        })
     })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.choices && data.choices.length > 0) {
-      return data.choices[0].text.trim();
-    } else {
-      throw new Error('Invalid response from OpenAI API');
-    }
-  })
-  .catch(error => {
-    console.error('Error calling OpenAI API:', error);
-  });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Cohere's response structure might be different; adjust as necessary based on their documentation
+            console.log(data);
+            if (data.text) {
+                return data.text.trim();
+            } else {
+                throw new Error('Invalid response from Cohere API');
+            }
+        })
+        .catch(error => {
+            console.error('Error calling Cohere API:', error);
+        });
 }
+
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
@@ -34,16 +48,15 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 function sendTextForExplanation(text) {
-    let exp = '';
-    exp = callOpenAI(text).then(explanation => {
+    // Call the updated function for Cohere
+    return callCohere(text).then(explanation => {
         // Process and use the explanation as needed
-        // For example, you can log it or send it back to the content script
+        console.log(explanation);
         return explanation;
     }).catch(error => {
         console.error('Error:', error);
         return '';
     });
-    return Promise.resolve(exp);
 }
 
 
