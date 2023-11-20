@@ -12,7 +12,7 @@ function callCohere(text) {
                     'Cohere-Version': '2021-11-08'
                 },
                 body: JSON.stringify({
-                    prompt: "summarize and simplify the follownig text within 100 words: " + text,
+                    prompt: "Summarize and simplify the following text within 100 words in the same language as the following text: " + text,
                     max_tokens: 150
                 })
             })
