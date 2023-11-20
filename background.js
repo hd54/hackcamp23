@@ -12,7 +12,7 @@ function callCohere(text) {
                     'Cohere-Version': '2021-11-08'
                 },
                 body: JSON.stringify({
-                    prompt: text,
+                    prompt: "summarize and simplify the follownig text within 100 words: " + text,
                     max_tokens: 150
                 })
             })
@@ -27,7 +27,7 @@ function callCohere(text) {
                     console.log(data);
                     if (data.generations && data.generations.length > 0) {
                         showDropdownWithResponse(data.generations[0].text.trim());
-                        return data.generations[0].text.trim();
+                        return data.generations[0].text.trim().replace(/\.[^\.]*$/, '');;
                     } else {
                         showDropdownWithResponse('Invalid response from Cohere API');
                         throw new Error('Invalid response from Cohere API');

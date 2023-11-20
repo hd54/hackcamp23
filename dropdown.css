@@ -1,8 +1,9 @@
 /* Add your styles here */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
     padding: 15px;
-    width: 300px;
+    width: 375px;
 }
 .hidden {
     display: none;
