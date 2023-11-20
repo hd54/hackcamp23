@@ -26,8 +26,16 @@ function callCohere(text) {
                 .then(data => {
                     console.log(data);
                     if (data.generations && data.generations.length > 0) {
-                        showDropdownWithResponse(data.generations[0].text.trim());
-                        return data.generations[0].text.trim().replace(/\.[^\.]*$/, '');;
+                        let para = data.generations[0].text.trim();
+                        let last = para.lastIndexOf('.');
+                        let result = '';
+                        if (last !== -1) {
+                            for (let i = 0; i <= last; i++) {
+                                result += para[i];
+                            }
+                        }
+                        showDropdownWithResponse(result);
+                        return result;
                     } else {
                         showDropdownWithResponse('Invalid response from Cohere API');
                         throw new Error('Invalid response from Cohere API');
