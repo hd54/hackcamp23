@@ -2,33 +2,15 @@
 <html>
 <head>
     <title>API Response</title>
-    <style>
-        /* Add your styles here */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 15px;
-            width: 300px;
-        }
-        .hidden {
-            display: none;
-        }
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="dropdown.css">
 </head>
 <body>
 <div id="loader" class="loader"></div>
 <div id="apiResponse" class="hidden"></div>
+<form id="apiKeyForm">
+    <input type="text" id="apiKeyInput" placeholder="Enter your Cohere API key" />
+    <button type="submit">Save Key</button>
+</form>
 <script src="dropdown.js"></script>
 </body>
 </html>

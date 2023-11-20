@@ -8,3 +8,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         document.getElementById('apiResponse').textContent = request.response;
     }
 });
+
+// Add event listener for the form submission
+document.getElementById('apiKeyForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const apiKey = document.getElementById('apiKeyInput').value;
+    // Save the API key using Chrome's storage API
+    chrome.storage.local.set({ 'cohereApiKey': apiKey }, function() {
+        document.getElementById("apiKeyInput").value = "";
+    });
+});
